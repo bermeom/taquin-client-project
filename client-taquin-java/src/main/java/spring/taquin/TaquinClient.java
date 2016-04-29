@@ -63,10 +63,6 @@ public class TaquinClient extends ConnectionServerSocketIO{
             return taquinSolutions.get(this.taquin).get(step);
     }
    
-    @Override
-    public void finalize() throws Throwable {
-        super.finalize();
-    }
-   
+  
     
 }
