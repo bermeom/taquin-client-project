@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spring.taquin;
+package connectionServerNode;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -32,7 +32,7 @@ public abstract class ConnectionServerSocketIO {
         this.username = username;
     }
     
-    protected void startServerConnection(){
+    public void startServerConnection(){
         try {
             Socket socket = IO.socket(hostnambe);
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {

@@ -11,11 +11,22 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
-    <dependency>
-      <groupId>io.socket</groupId>
-      <artifactId>socket.io-client</artifactId>
-      <version>0.7.0</version>
-    </dependency>
-</dependencies>
+        <dependency>
+          <groupId>io.socket</groupId>
+          <artifactId>socket.io-client</artifactId>
+          <version>0.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+
+    </dependencies>
     <name>taquin-client-java</name>
 </project>
