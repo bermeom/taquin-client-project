@@ -11,39 +11,40 @@ package spring.taquin.solve;
  */
 public class Triple {
     
-    private int id;
-    private int i_puzzle;
-    private int j_puzzle;    
+    private int first;
+    private int second;
+    private int third;    
 
-    public Triple(int id, int i_puzzle, int j_puzzle) {
-        this.id = id;
-        this.i_puzzle = i_puzzle;
-        this.j_puzzle = j_puzzle;
+    public Triple(int first, int second, int third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
     }
 
-    public int getId() {
-        return id;
+    public int getFirst() {
+        return first;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFirst(int first) {
+        this.first = first;
     }
 
-    public int getI_puzzle() {
-        return i_puzzle;
+    public int getSecond() {
+        return second;
     }
 
-    public void setI_puzzle(int i_puzzle) {
-        this.i_puzzle = i_puzzle;
+    public void setSecond(int second) {
+        this.second = second;
     }
 
-    public int getJ_puzzle() {
-        return j_puzzle;
+    public int getThird() {
+        return third;
     }
 
-    public void setJ_puzzle(int j_puzzle) {
-        this.j_puzzle = j_puzzle;
+    public void setThird(int third) {
+        this.third = third;
     }
-    
+
+   
     
 }

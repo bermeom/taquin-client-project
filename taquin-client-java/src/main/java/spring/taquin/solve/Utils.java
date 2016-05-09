@@ -31,7 +31,7 @@ public class Utils {
     }
     
     public static BitSet setValueBS(int pos,int nbits,int sizeBS, BitSet taquinBS,int value){
-        for(int k=nbits-1,q=sizeBS-pos*nbits-1;k>=0;k--,q--){
+        for(int k=nbits-1,q=sizeBS-pos*nbits-1;k>=0&&q>=0;k--,q--){
             taquinBS.set(q,(((value>>k)&1)==1));
         }
         return taquinBS;
@@ -46,11 +46,38 @@ public class Utils {
         for(int i=0;i<n;i++){
             row="";
             for(int j=0;j<n;j++){
-                row+=" "+Utils.getValueBS(k,nbits,sizeBS,taquinBS);
+                row+=Utils.getValueBS(k,nbits,sizeBS,taquinBS)+" ";
                 k++;
             }
             m+=row+"\n";
         }
-        return m;
+        return m.trim();
     }
+    
+     public static String bitSetToString(int n,int nbits,int sizeBS, BitSet taquinBS) {
+        int k=0;
+        String row="",m="";
+        for(int i=0;i<n;i++){
+            row="";
+            for(int j=0;j<n;j++){
+                row+=" "+Utils.getValueBS(k,nbits,sizeBS,taquinBS);
+                k++;
+            }
+            m+=row;
+        }
+        return m.trim();
+    }
+     
+    public static BitSet convertToStringtTBitset(int n,int nbits,int sizeBS, String taquin) {
+            BitSet bs=new BitSet(nbits);
+            String []s=taquin.split(" ");
+            int i=0;
+            for (String c: s){
+                bs=Utils.setValueBS(i, nbits, sizeBS, bs, Integer.parseInt(c));
+                i++;
+            }
+            return bs;
+    }
+    
+    
 }
