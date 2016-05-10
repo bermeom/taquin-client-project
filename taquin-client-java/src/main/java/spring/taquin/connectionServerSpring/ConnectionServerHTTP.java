@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import spring.taquin.solve.Pair;
 import spring.taquin.solve.Utils;
 
 /**
@@ -30,7 +31,12 @@ public class ConnectionServerHTTP {
     
     private final String USER_AGENT = "Mozilla/5.0";
     protected String hostnambe;
-   
+    protected JSONObject replay;
+    private char maskBits;
+    private int nbits;
+    private int sizeBS;
+    private int n;
+    
     public ConnectionServerHTTP( String hostnambe) {
         this.hostnambe = hostnambe;
     }
@@ -53,15 +59,16 @@ public class ConnectionServerHTTP {
         wr.close();
         //display what returns the POST request
         
-        //StringBuilder sb = new StringBuilder();  
+        StringBuilder sb = new StringBuilder();  
         int HttpResult = con.getResponseCode(); 
         if (HttpResult == HttpURLConnection.HTTP_OK) {
-            /*
+            
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "utf-8"));
             String line = null;  
             while ((line = br.readLine()) != null) {  
                 sb.append(line + "\n");  
+                this.replay=new JSONObject(line);
             }
             br.close();
             System.out.println("" + sb.toString()); 
@@ -75,15 +82,16 @@ public class ConnectionServerHTTP {
        
     }
     
-    public void creatGamer(int id,String username){
+    public boolean creatGamer(int id,String username){
         try {
-            sendRequestHTTPPost("api/player/"+id+"/new/"+username+"/",new JSONObject());
+            return sendRequestHTTPPost("api/player/"+id+"/new/"+username+"/",new JSONObject());
         } catch (Exception ex) {
             System.out.println("ERROR : "+ex);
         }
+        return false;
     }
      
-    public void creatBoard(int movements,int row,int column,int n,int nbits,int sizeBS, BitSet taquin){
+    public boolean creatBoard(int movements,int row,int column,int n,int nbits,int sizeBS, BitSet taquin){
     
         try {
             JSONObject data   = new JSONObject();
@@ -95,18 +103,78 @@ public class ConnectionServerHTTP {
             data.put("movements",(movements));
             //System.out.println(data);
             
-            sendRequestHTTPPost("api/board/new/",data);
+            return sendRequestHTTPPost("api/board/new/",data);
         } catch (Exception ex) {
             System.out.println("ERROR : "+ex);
         }
+        
+        return false;
     }
     
-    public void moveChip(int idplayer,String direction){
+    public boolean moveChip(int idplayer,String direction){
     
         try {
-            sendRequestHTTPPost("api/player/"+idplayer+"/board/move/"+direction+"/",new JSONObject());
+             return sendRequestHTTPPost("api/player/"+idplayer+"/board/move/"+direction+"/",new JSONObject());
         } catch (Exception ex) {
             System.out.println("ERROR : "+ex);
         }
+        
+        return false;
     }
+    
+    public BitSet getBoardBitSet() throws JSONException{
+        String taquin="";
+        
+        JSONArray taquinJSON=this.replay.getJSONObject("board").getJSONArray("currentState");
+        Pair p=Utils.nBits(taquinJSON.length());
+        this.n=taquinJSON.length();
+        this.sizeBS=p.getSecond();
+        this.nbits=p.getFirst();
+        BitSet bs=new BitSet(this.sizeBS) ;
+        for(int i=0;i<taquinJSON.length();i++){
+            for(int j=0;j<taquinJSON.getJSONArray(i).length();j++){
+                if(taquinJSON.getJSONArray(i).getString(j).equals("null")||taquinJSON.getJSONArray(i).getString(j).equals("B")){
+                    bs=Utils.setValueBS(i, j, n, nbits, sizeBS, bs,0);
+                }else{
+                    bs=Utils.setValueBS(i, j, n, nbits, sizeBS, bs,Integer.parseInt(taquinJSON.getJSONArray(i).getString(j)));
+                }
+                
+            }
+        }
+        return bs;
+    }
+
+    public String getHostnambe() {
+        return hostnambe;
+    }
+
+    public void setHostnambe(String hostnambe) {
+        this.hostnambe = hostnambe;
+    }
+
+    public int getNbits() {
+        return nbits;
+    }
+
+    public void setNbits(int nbits) {
+        this.nbits = nbits;
+    }
+
+    public int getSizeBS() {
+        return sizeBS;
+    }
+
+    public void setSizeBS(int sizeBS) {
+        this.sizeBS = sizeBS;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+    
+    
 }

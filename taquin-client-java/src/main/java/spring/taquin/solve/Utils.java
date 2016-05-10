@@ -89,7 +89,7 @@ public class Utils {
                 rowJSON=new JSONArray();
                 for(int j=0;j<n;j++){
                     number=Utils.getValueBS(i, j, n, nbits, sizeBS, taquin);
-                    rowJSON.put(number==0?"B":(number+""));
+                    rowJSON.put(number);//==0?"B":(number+""));
                 }
                 taquinJSON.put(rowJSON);
             } return taquinJSON;
@@ -109,6 +109,18 @@ public class Utils {
         }
         
         return r;
+    }
+    
+    public static Pair nBits(int n){
+        int num=1;
+        int nbits=0;
+        int maskBits=(char)((num<<nbits)-1);
+        while(maskBits<(n*n-1)){
+            nbits++;
+            maskBits=(char)((num<<nbits)-1);
+        }
+        int sizeBS=nbits*n*n;
+        return new Pair(nbits, sizeBS);
     }
     
     

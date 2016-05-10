@@ -134,7 +134,7 @@ public class Graph {
         this.graph.get(id2).add(id1);
         return true;
     }
-    public int getId(BitSet bs){
+    public Integer getId(BitSet bs){
         return this.ids.get(bs);
     }
     
