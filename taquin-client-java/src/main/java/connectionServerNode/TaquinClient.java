@@ -44,7 +44,7 @@ public class TaquinClient extends ConnectionServerSocketIO{
     @Override
     public String solveTaquin(String matriz) {
             this.step=1;
-            this.id=graphs.get(this.size).getId(Utils.convertToStringtTBitset(graphs.get(this.size).getN(), graphs.get(this.size).getNbits(), graphs.get(this.size).getSizeBS(), matriz));
+            this.id=graphs.get(this.size).getId(Utils.convertToStringtToBitset(graphs.get(this.size).getN(), graphs.get(this.size).getNbits(), graphs.get(this.size).getSizeBS(), matriz));
             this.id=graphs.get(this.size).getParent(id);
             return this.step+" "+this.graphs.get(this.size).getBitSet(id).getI_puzzle()+" "+this.graphs.get(this.size).getBitSet(id).getJ_puzzle();
     }

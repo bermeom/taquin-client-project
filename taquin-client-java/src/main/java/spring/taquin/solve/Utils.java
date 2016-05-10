@@ -1,6 +1,8 @@
 package spring.taquin.solve;
 
 import java.util.BitSet;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -68,7 +70,7 @@ public class Utils {
         return m.trim();
     }
      
-    public static BitSet convertToStringtTBitset(int n,int nbits,int sizeBS, String taquin) {
+    public static BitSet convertToStringtToBitset(int n,int nbits,int sizeBS, String taquin) {
             BitSet bs=new BitSet(nbits);
             String []s=taquin.split(" ");
             int i=0;
@@ -78,6 +80,37 @@ public class Utils {
             }
             return bs;
     }
+    
+    public static JSONArray convertArryJSONToBitset(int n,int nbits,int sizeBS, BitSet taquin) {
+            JSONArray taquinJSON=new JSONArray();
+            JSONArray rowJSON;//=new JSONArray();
+            int number;
+            for(int i=0;i<n;i++){
+                rowJSON=new JSONArray();
+                for(int j=0;j<n;j++){
+                    number=Utils.getValueBS(i, j, n, nbits, sizeBS, taquin);
+                    rowJSON.put(number==0?"B":(number+""));
+                }
+                taquinJSON.put(rowJSON);
+            } return taquinJSON;
+    }
+    
+    public static String convertMovementsStringtoCoordinate(int curruntI,int curruntJ,int nextI,int nextJ){
+        String r="";
+          
+        if(nextI-curruntI==0&&nextJ-curruntJ==1){
+            r="right";
+        }else if(nextI-curruntI==0&&nextJ-curruntJ==-1){
+                r="left";
+        }else if(nextI-curruntI==1&&nextJ-curruntJ==0){
+                r="down";
+        }else if(nextI-curruntI==-1&&nextJ-curruntJ==0){
+                r="up";
+        }
+        
+        return r;
+    }
+    
     
     
 }
