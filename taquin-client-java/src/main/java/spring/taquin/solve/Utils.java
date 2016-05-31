@@ -81,7 +81,7 @@ public class Utils {
         for(int i=0;i<n;i++){
             row="";
             for(int j=0;j<n;j++){
-                row+=" "+Utils.getValueBS(k,nbits,sizeBS,taquinBS);
+                row+="\t"+Utils.getValueBS(k,nbits,sizeBS,taquinBS);
                 k++;
             }
             m+=row+"\n";

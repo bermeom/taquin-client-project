@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
+import javax.crypto.Mac;
 import spring.taquin.solve.Node;
 import spring.taquin.solve.Utils;
 import spring.taquin.solve.heuristics.Heuristics;
@@ -33,7 +34,7 @@ public class IDA_STAR {
     private int []x={1,0,-1, 0};
     private int []y={0,1, 0,-1};
     private List<List<List< List<Integer> > > > allDistanceManhattan;
-    private Map<BitSet,Boolean> maks;
+    private Map<BitSet,Node> maks;
     private Node rootT;
     public IDA_STAR() {
         
@@ -53,33 +54,40 @@ public class IDA_STAR {
         long t=1000000000;
         this.found=false;
         this.maks=new Hashtable<>();
-        //while(found==false||t!=0){
+        //while(found==false){
+            System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, this.rootT.getTaquinBS()));
+            System.out.println(Heuristics.misplaced(rootT, n, nbits, sizeBS));
             t=search(this.rootT, 0, bound);
+            
         //}
         System.out.println("Finish "+t);
     }
     
     public long search(Node node,long g,long bound){
-        long min=bound,min2,f;   
+        long min=bound,min2,f,h;   
         int i,j;
         Node aux,min_ = null;
         //Stack<NodeSearch> fs=new Stack<>();
         PriorityQueue<NodeSearch> fs=new PriorityQueue<NodeSearch>(new NodeSearchComparator());
         //Stack<NodeSearch> fs=new Stack<>();
-        this.maks.put(node.getTaquinBS(), true);
+        this.maks.put(node.getTaquinBS(), node);
         fs.add(new NodeSearch(bound, g, node));
         NodeSearch ns;
         
         while(!fs.isEmpty()){
             ns=fs.poll();
             f=ns.getF();
-            System.out.println("=========== F= "+f+" G= "+ns.getG()+" H= "+Heuristics.hDistanceManhattan(ns.getNode(),this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS));
-            System.out.println(Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
-            if (f<min){
-               min=f; 
+            /*
+            if (f>min){
+               min=f;
+                System.out.println("------------------------------+++");
                this.rootT=ns.getNode();
-            }else if(is_goal(ns.getNode())){
+               continue;
+            }else */if(is_goal(ns.getNode())){
+                System.out.println("=========== F= "+f+" G= "+ns.getG()+" H= "+ns.getH()+" "+Heuristics.hDistanceManhattan(ns.getNode(), this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS));
+                System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
                 this.found=true;
+                this.rootT=ns.getNode();
                 return 0;
             } 
             for(int k=0;k<4;k++){
@@ -88,9 +96,12 @@ public class IDA_STAR {
                 if (boundaryValidation(i, 0,this.n-1)&&boundaryValidation(j, 0,this.n-1)){
                     aux=movePuzzle(ns.getNode(), i, j);
                     if (this.maks.get(aux.getTaquinBS())==null){
-                        f=ns.getG()+1+Heuristics.hDistanceManhattan(aux,this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
-                        fs.add(new NodeSearch(f, ns.getG()+1 , aux));
-                        this.maks.put(aux.getTaquinBS(), true);
+                        //h=ns.getH()-Heuristics.hDistanceManhattan(ns.getNode(),i,j,this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+                        //h+=Heuristics.hDistanceManhattan(aux,ns.getNode().getI_puzzle(),ns.getNode().getJ_puzzle(),this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+                        h=Heuristics.hDistanceManhattan(aux, this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+                        h=Math.max(h, Heuristics.misplaced(aux,this.n,this.nbits,sizeBS));
+                        fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                        this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
                     }
                 }
             }
@@ -100,17 +111,18 @@ public class IDA_STAR {
     }
     
     public long search1(Node node,long g,long bound){
-        long min=bound,min2,f;   
+        long min=bound,min2,f,h;   
         int i,j;
-        Node aux,min_ = null;
+        Node aux;
+        NodeSearch min_=null;
         Stack<NodeSearch> fs=new Stack<>();
-        this.maks.put(node.getTaquinBS(), true);
+        this.maks.put(node.getTaquinBS(), node);
         fs.add(new NodeSearch(bound, g, node));
         NodeSearch ns;
-        
+        List<NodeSearch> listAux;
         while(!fs.isEmpty()){
             ns=fs.pop();
-            f=ns.getF();
+            f=ns.getH();
             System.out.println("=========== F= "+f+" G= "+ns.getG());
             System.out.println(Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
             if (f<min){
@@ -120,19 +132,25 @@ public class IDA_STAR {
                 this.found=true;
                 return 0;
             } 
+            min2=-1;
+            listAux=new ArrayList<>();
             for(int k=0;k<4;k++){
                 i=x[k]+ns.getNode().getI_puzzle();
                 j=y[k]+ns.getNode().getJ_puzzle();
                 if (boundaryValidation(i, 0,this.n-1)&&boundaryValidation(j, 0,this.n-1)){
                     aux=movePuzzle(ns.getNode(), i, j);
                     if (this.maks.get(aux.getTaquinBS())==null){
-                        f=ns.getG()+1+Heuristics.hDistanceManhattan(aux,this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
-                        fs.add(new NodeSearch(f, ns.getG()+1 , aux));
-                        this.maks.put(aux.getTaquinBS(), true);
+                        h=ns.getH()-Heuristics.hDistanceManhattan(ns.getNode(),i,j,this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+                        h+=Heuristics.hDistanceManhattan(aux,ns.getNode().getI_puzzle(),ns.getNode().getJ_puzzle(),this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+                          listAux.add(new NodeSearch(h, ns.getG()+1 , aux));
+                          this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
                     }
                 }
             }
-     
+            listAux.sort(new NodeSearchComparator());
+            for(NodeSearch nn:listAux){
+                fs.add(nn);
+            }
         }
         return min;
     }

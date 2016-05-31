@@ -13,25 +13,27 @@ import spring.taquin.solve.Node;
  */
 public class NodeSearch {
     
-    private long f;
+    private long h;
     private long g;
     private Node node;
 
-    public NodeSearch(long f, long g, Node node) {
-        this.f = f;
+    public NodeSearch(long h, long g, Node node) {
+        this.h = h;
         this.g = g;
         this.node = node;
     }
 
+    public long getH() {
+        return h;
+    }
     public long getF() {
-        return f;
+        return h+g;
     }
 
-    public void setF(long f) {
-        this.f = f;
+    public void setH(long h) {
+        this.h = h;
     }
 
-    
     public long getG() {
         return g;
     }

@@ -133,9 +133,10 @@ public class main {
             System.out.println("");
             //*/
             //String taquins="1 0 2 3 4 5 6 7 8";
-            //String taquins="18 7 5 9 23 2 19 3 8 20 15 16 4 14 24 1 11 22 17 12 13 6 10 21 0";//5
+            //String taquins="20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0";//5
+            //String taquins="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24";//5
             String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4
-            //String taquins="15 14 0 4 11 1 6 13 7 5 8 9 3 2 10 12";//4X
+            //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4X
             //String taquins="8 7 13 3 10 11 15 4 9 2 1 6 12 5 14 0";//4
             //taquins="0 7 10 1 15 6 4 3 12 8 13 11 2 9 5 14";
             //String taquins="8 7 6 0 4 1 2 5 3";//3
@@ -144,7 +145,7 @@ public class main {
             Taquin t=new Taquin(n);
             Taquin t2=new Taquin(n);
             BitSet mbs=Utils.convertToStringtToBitset(t.getN(), t.getNbits(), t.getSizeBS(),taquins);
-            System.out.println(" =>>>>> "+g.getId(mbs));
+            //System.out.println(" =>>>>> "+g.getId(mbs));
             //List<List<Integer> > mm=Utils.convertToStringMatriz(n,taquins);
             //Utils.printMatrix(mm);
             Node node=Utils.convertToStringtToNode(t.getN(), t.getNbits(), t.getSizeBS(),taquins);
@@ -154,7 +155,7 @@ public class main {
             System.out.println("H= "+Heuristics.hDistanceManhattan(new Node(t.getTaquinBS(), t.getI_puzzle(), t.getJ_puzzle()), allDistanceManhattan.get(n-2),t.getN(), t.getNbits(), t.getSizeBS()));
             //System.out.println("H= "+Heuristics.hDistanceManhattan(node, allDistanceManhattan.get(n-2),t.getN(), t.getNbits(), t.getSizeBS()));
             
-            System.out.println(Utils.bitSetToStringln(t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS()));
+            //System.out.println(Utils.bitSetToStringln(t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS()));
             IDA_STAR ida=new IDA_STAR();
             //System.out.println();
             ida.ida_star(node, t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS());
