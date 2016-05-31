@@ -21,6 +21,7 @@ import spring.taquin.solve.Graph;
 import spring.taquin.solve.Node;
 import spring.taquin.solve.Taquin;
 import spring.taquin.solve.Utils;
+import spring.taquin.solve.heuristics.DataHeuristics;
 import spring.taquin.solve.heuristics.Heuristics;
 
 /**
@@ -118,19 +119,28 @@ public class main {
     public static void main(String[] args) throws InterruptedException, JSONException {
             //menu();
             List<List<List< List<Integer> > > > allDistanceManhattan=new ArrayList<>();
+             List<DataHeuristics> allDMPatternDatabases=new ArrayList<>();
             for(int i=2;i<=10;i++){
-                allDistanceManhattan.add(Utils.createSquareDistanceManhattan(i));
+                allDistanceManhattan.add(Heuristics.createSquareDistanceManhattan(i));
+                allDMPatternDatabases.add(Heuristics.createSquareDistanceManhattanPatternDatabases(i));
             }
             /*
-            System.out.println("4");
-            Utils.printMatrix(allDistanceManhattan.get(1).get(4));
-            System.out.println("5");
-            Utils.printMatrix(allDistanceManhattan.get(1).get(5));
-            System.out.println("6");
-            Utils.printMatrix(allDistanceManhattan.get(1).get(6));
-            System.out.println("7");
-            Utils.printMatrix(allDistanceManhattan.get(1).get(7));
-            System.out.println("");
+            int a;
+            a=1;
+            System.out.println(a);
+            Utils.printMatrix(allDMPatternDatabases.get(3).getDistanceManhattan().get(a));
+            a=2;
+            System.out.println(a);
+            Utils.printMatrix(allDMPatternDatabases.get(3).getDistanceManhattan().get(a));
+            a=5;
+            System.out.println(a);
+            Utils.printMatrix(allDMPatternDatabases.get(3).getDistanceManhattan().get(a));
+            a=7;
+            System.out.println(a);
+            Utils.printMatrix(allDMPatternDatabases.get(3).getDistanceManhattan().get(a));
+            a=11;
+            System.out.println(a);
+            Utils.printMatrix(allDMPatternDatabases.get(3).getDistanceManhattan().get(a));
             //*/
             //String taquins="35 3 11 62 6 10 2 13 4 1 8 29 25 19 9 15 31 32 18 23 20 49 24 51 45 41 21 5 27 84 22 17 36 56 52 43 12 87 68 16 38 63 47 28 50 39 14 55 91 75 65 60 69 7 86 74 42 68 46 54 80 33 44 40 85 90 26 57 30 58 89 99 81 59 53 94 34 73 92 88 82 71 66 97 76 79 95 48 37 78 72 83 96 77 61 93 64 70 98 0";//10
             //String taquins="1 0 2 3 4 5 6 7 8";
@@ -139,10 +149,13 @@ public class main {
             //String taquins="22 23 11 6 9 27 25 8 12 10 5 34 20 18 4 32 24 3 21 19 14 7 30 16 15 33 17 1 26 2 31 13 35 29 28 0";//6
             //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4
             //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4X
-            //String taquins="8 7 13 3 10 11 15 4 9 2 1 6 12 5 14 0";//4
-            //taquins="0 7 10 1 15 6 4 3 12 8 13 11 2 9 5 14";
-            String taquins="8 7 6 0 4 1 2 5 3";//3
-            int n=3;
+            //String taquins="0 12 9 13 15 11 10 14 7 8 5 6 4 3 2 1";//4
+            //String taquins="16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 ";//7
+            //String taquins="16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 0";//7
+            String taquins="11 24 48 18 10 23 9 22 21 3 13 14 17 2 29 58 57 52 33 19 8 42 30 28 5 32 7 4 15 36 12 20 45 53 49 46 37 34 43 1 26 56 35 61 60 25 51 59 16 54 40 31 47 55 41 39 27 6 63 50 62 38 44 0";//8
+            //String taquins="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 34 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48";//7
+            //String taquins="8 7 6 0 4 1 2 5 3";//3
+            int n=8;
             Graph g=new Graph(3);
             Taquin t=new Taquin(n);
             Taquin t2=new Taquin(n);
@@ -155,11 +168,10 @@ public class main {
             //node=g.getBitSet(nodeID);
             //System.out.println(Heuristics.hDistanceManhattan(mm, allDistanceManhattan.get(n-2)));
             System.out.println("H= "+Heuristics.hDistanceManhattan(new Node(t.getTaquinBS(), t.getI_puzzle(), t.getJ_puzzle()), allDistanceManhattan.get(n-2),t.getN(), t.getNbits(), t.getSizeBS()));
-            //System.out.println("H= "+Heuristics.hDistanceManhattan(node, allDistanceManhattan.get(n-2),t.getN(), t.getNbits(), t.getSizeBS()));
-            
-            //System.out.println(Utils.bitSetToStringln(t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS()));
             IDA_STAR ida=new IDA_STAR();
             //System.out.println();
+            //ida.ida_star(node, t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS());
+            //ida.ida_starPatternDatabase(node, t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS());
             ida.ida_star(node, t.getN(), t.getNbits(), t.getSizeBS(), t.getTaquinBS());
             
             /*

@@ -203,62 +203,6 @@ public class Utils {
     
     }
     
-    public static List<List< List<Integer> > > createSquareDistanceManhattan(int n){
-        List<List< List<Integer> > > square=new ArrayList< List< List<Integer> > >();
-        int x=0,y=0,c=0;
-        for(int k=0;k<n*n;k++){
-             square.add(new ArrayList<List<Integer> >());
-             if(k==0){
-                x=n-1;
-                y=n-1;
-             }else if(k==1){
-                  x=0;
-                  y=0;
-               }else if (x==n-1){
-                        y++;
-                        x=0;
-                    }else{
-                        x++;
-                    } 
-             
-             //System.out.println(x+" "+y);
-             for(int i=0;i<n;i++){
-                square.get(k).add(new ArrayList<Integer>());
-                for(int j=0;j<n;j++){
-                    square.get(k).get(i).add(Math.abs(j-x)+Math.abs(i-y));
-                } 
-             }
-        }
-        return square;
-    
-    }
-    
-    public static List<List< List<Integer> > > createSquareDistanceManhattan1(int n){
-        List<List< List<Integer> > > square=new ArrayList< List< List<Integer> > >();
-        int x=0,y=0,c=0;
-        for(int k=0;k<n*n;k++){
-             square.add(new ArrayList<List<Integer> >());
-             if(k==0){
-                x=0;
-                y=0;
-             }else{
-                if(x==3){
-                    y++;
-                    x=0;
-                } 
-             }
-             //System.out.println(x+" "+y);
-             for(int i=0;i<n;i++){
-                square.get(k).add(new ArrayList<Integer>());
-                for(int j=0;j<n;j++){
-                    square.get(k).get(i).add(Math.abs(j-x)+Math.abs(i-y));
-                } 
-             }
-             x++;
-        }
-        return square;
-    
-    }
     
     public static void printMatrix(List< List<Integer> > matrix){
     
