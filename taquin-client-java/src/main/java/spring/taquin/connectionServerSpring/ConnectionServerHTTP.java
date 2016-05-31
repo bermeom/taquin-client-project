@@ -130,10 +130,13 @@ public class ConnectionServerHTTP {
         this.n=taquinJSON.length();
         this.sizeBS=p.getSecond();
         this.nbits=p.getFirst();
+        int row=this.replay.getJSONObject("board").getJSONObject("blank").getInt("row");
+        int column=this.replay.getJSONObject("board").getJSONObject("blank").getInt("column");
+        System.out.println(row+" "+column);
         BitSet bs=new BitSet(this.sizeBS) ;
         for(int i=0;i<taquinJSON.length();i++){
             for(int j=0;j<taquinJSON.getJSONArray(i).length();j++){
-                if(taquinJSON.getJSONArray(i).getString(j).equals("null")||taquinJSON.getJSONArray(i).getString(j).equals("B")){
+                if(row==i&&column==j){
                     bs=Utils.setValueBS(i, j, n, nbits, sizeBS, bs,0);
                 }else{
                     bs=Utils.setValueBS(i, j, n, nbits, sizeBS, bs,Integer.parseInt(taquinJSON.getJSONArray(i).getString(j)));

@@ -15,9 +15,9 @@ public class Node {
     private BitSet taquinBS;
     private int i_puzzle;
     private int j_puzzle;
-
+    
     public Node(BitSet taquinBS, int i_puzzle, int j_puzzle) {
-        this.taquinBS = taquinBS;
+        this.taquinBS = (BitSet) taquinBS.clone();
         this.i_puzzle = i_puzzle;
         this.j_puzzle = j_puzzle;
     }
@@ -44,6 +44,13 @@ public class Node {
 
     public void setJ_puzzle(int j_puzzle) {
         this.j_puzzle = j_puzzle;
+    }
+
+    public int getValueBS(int i,int j,int n,int nbits,int sizeBS){
+        return Utils.getValueBS(i,j,n,nbits,sizeBS,this.taquinBS);
+    }
+    public void setValueBS(int i,int j,int n,int nbits,int sizeBS,int value){
+        this.taquinBS= Utils.setValueBS(i,j,n,nbits,sizeBS,this.taquinBS,value);
     }
     
     
