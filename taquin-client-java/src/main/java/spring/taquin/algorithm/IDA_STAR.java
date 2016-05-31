@@ -100,7 +100,7 @@ public class IDA_STAR {
                         //h+=Heuristics.hDistanceManhattan(aux,ns.getNode().getI_puzzle(),ns.getNode().getJ_puzzle(),this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
                         h=Heuristics.hDistanceManhattan(aux, this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
                         h=Math.max(h, Heuristics.misplaced(aux,this.n,this.nbits,sizeBS));
-                        fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                        fs.add(new NodeSearch(h, ns.getG()+1 , aux));
                         this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
                     }
                 }
