@@ -133,14 +133,14 @@ public class main {
             System.out.println("");
             //*/
             //String taquins="1 0 2 3 4 5 6 7 8";
-            //String taquins="20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0";//5
+            String taquins="20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0";//5
             //String taquins="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24";//5
-            String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4
+            //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4
             //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4X
             //String taquins="8 7 13 3 10 11 15 4 9 2 1 6 12 5 14 0";//4
             //taquins="0 7 10 1 15 6 4 3 12 8 13 11 2 9 5 14";
             //String taquins="8 7 6 0 4 1 2 5 3";//3
-            int n=4;
+            int n=5;
             Graph g=new Graph(3);
             Taquin t=new Taquin(n);
             Taquin t2=new Taquin(n);
