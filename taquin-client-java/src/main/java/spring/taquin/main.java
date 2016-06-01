@@ -117,7 +117,19 @@ public class main {
     
     
     public static void main(String[] args) throws InterruptedException, JSONException {
+            List<List<String > >boars=new ArrayList<List<String>>();
+            for(int i=0;i<10-4;i++){
+                boars.add(new ArrayList<>());
+            }
+            boars.get(4-4).add("1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0");
+            boars.get(4-4).add("0 12 9 13 15 11 10 14 7 8 5 6 4 3 2 1");
+            boars.get(5-4).add("20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0");
+            boars.get(5-4).add("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24");
+            boars.get(6-4).add("22 23 11 6 9 27 25 8 12 10 5 34 20 18 4 32 24 3 21 19 14 7 30 16 15 33 17 1 26 2 31 13 35 29 28 0");
+            boars.get(7-4).add("16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 0");
+            
             //menu();
+            
             List<List<List< List<Integer> > > > allDistanceManhattan=new ArrayList<>();
              List<DataHeuristics> allDMPatternDatabases=new ArrayList<>();
             for(int i=2;i<=10;i++){
@@ -150,10 +162,8 @@ public class main {
             //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4
             //String taquins="1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0";//4X
             //String taquins="0 12 9 13 15 11 10 14 7 8 5 6 4 3 2 1";//4
-            //String taquins="16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 ";//7
             //String taquins="16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 0";//7
             String taquins="11 24 48 18 10 23 9 22 21 3 13 14 17 2 29 58 57 52 33 19 8 42 30 28 5 32 7 4 15 36 12 20 45 53 49 46 37 34 43 1 26 56 35 61 60 25 51 59 16 54 40 31 47 55 41 39 27 6 63 50 62 38 44 0";//8
-            //String taquins="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 34 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48";//7
             //String taquins="8 7 6 0 4 1 2 5 3";//3
             int n=8;
             Graph g=new Graph(3);

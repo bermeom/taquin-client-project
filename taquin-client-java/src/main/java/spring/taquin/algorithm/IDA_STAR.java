@@ -6,6 +6,7 @@
 package spring.taquin.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
+import java.util.concurrent.PriorityBlockingQueue;
 import javax.crypto.Mac;
 import spring.taquin.solve.Node;
 import spring.taquin.solve.Utils;
@@ -101,18 +103,16 @@ public class IDA_STAR {
         long min=bound*bound+g,min2,f,h;   
         int i,j;
         Node aux,min_ = null;
-        //Stack<NodeSearch> fs=new Stack<>();
         PriorityQueue<NodeSearch> fs=new PriorityQueue<NodeSearch>(new NodeSearchComparator());
-        //Stack<NodeSearch> fs=new Stack<>();
         this.maks.put(node.getTaquinBS(), node);
         fs.add(new NodeSearch(bound, g, node));
         NodeSearch ns;
         System.out.println("-------------> Bound min: "+min);
-        
         while(!fs.isEmpty()){
             ns=fs.poll();
             f=ns.getF();
-            
+            /*
+            System.out.println(fs.size());
             System.out.println("===-======= F= "+f+" G= "+ns.getG()+" H= "+ns.getH()+" "+Heuristics.hDistanceManhattan(ns.getNode(), this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS));
             System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
             //*/
@@ -147,9 +147,20 @@ public class IDA_STAR {
                         //fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
                         fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
                         this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
+                        //fs.
                      }
                 }
             }
+            
+           if (fs.size()>1000000){
+               PriorityQueue<NodeSearch> fs1=new PriorityQueue<NodeSearch>(new NodeSearchComparator());
+               for (i=0;i<500000;i++){
+                   fs1.add(fs.poll());
+               }
+               fs=new PriorityQueue<NodeSearch>(fs1);
+               System.gc();
+           }
+           //*/
      
         }
         return min;
