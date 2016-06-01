@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import spring.taquin.solve.Node;
 import spring.taquin.solve.Pair;
 import spring.taquin.solve.Utils;
 
@@ -71,7 +72,8 @@ public class ConnectionServerHTTP {
                 this.replay=new JSONObject(line);
             }
             br.close();
-            System.out.println("" + sb.toString()); 
+            
+            //System.out.println("" + sb.toString()); 
             //*/
             return true;
         } else {
@@ -122,7 +124,7 @@ public class ConnectionServerHTTP {
         return false;
     }
     
-    public BitSet getBoardBitSet() throws JSONException{
+    public Node getBoardNode() throws JSONException{
         String taquin="";
         
         JSONArray taquinJSON=this.replay.getJSONObject("board").getJSONArray("currentState");
@@ -144,7 +146,8 @@ public class ConnectionServerHTTP {
                 
             }
         }
-        return bs;
+        
+        return new Node(bs, row, column);
     }
 
     public String getHostnambe() {

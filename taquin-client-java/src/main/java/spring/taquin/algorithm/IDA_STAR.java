@@ -40,6 +40,7 @@ public class IDA_STAR {
     private List<DataHeuristics> allDMPatternDatabases;
     private Map<BitSet,Node> maks;
     private Node rootT;
+    private List<Node> path;
     public IDA_STAR() {
         
         this.allDistanceManhattan=new ArrayList<>();
@@ -63,12 +64,29 @@ public class IDA_STAR {
         System.out.println(Heuristics.misplaced(rootT, n, nbits, sizeBS));
         //while(found==false){
         System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, this.rootT.getTaquinBS()));
-        
+        this.path=null;
         //for(int i=0;i<10000;i++){
             bound=Heuristics.hDistanceManhattan(rootT, this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
             bound=Math.max(bound, Heuristics.misplaced(this.rootT,this.n,this.nbits,sizeBS));
             t=search(this.rootT, t, bound);
-            System.out.println("++++++++++++++++++++++++++++++++++++++>>> "+t);
+            if(this.found==true){
+                this.path=new ArrayList<>();
+                this.path.add(this.rootT);
+                BitSet nn=this.rootT.getTaquinBS();
+                
+                while (!this.maks.get(nn).getTaquinBS().equals(rootT.getTaquinBS())){
+                    //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+                    //System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, nn));
+                    this.path.add(this.maks.get(nn));
+                    nn=this.maks.get(nn).getTaquinBS();//this.path.get(this.path.size()-1).getTaquinBS();
+                }
+                this.path.add(this.maks.get(nn));
+                nn=this.maks.get(nn).getTaquinBS();//this.path.get(this.path.size()-1).getTaquinBS();
+                //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+                //System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, nn));
+                
+            }
+            
         //}
         //}
         System.out.println("Finish "+t);
@@ -145,7 +163,13 @@ public class IDA_STAR {
                         h=Heuristics.hDistanceManhattan(aux, this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
                         h=Math.max(h, Heuristics.misplaced(aux,this.n,this.nbits,sizeBS));
                         //fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
-                        fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                        if(this.n==4){
+                            fs.add(new NodeSearch(h, ns.getG()+1 , aux));
+                        }else if(this.n==5){
+                          fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
+                        }else{
+                            fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                        }
                         this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
                         //fs.
                      }
@@ -304,4 +328,15 @@ public class IDA_STAR {
             
           return newNode;
     }
+
+    public List<Node> getPath() {
+        return path;
+    }
+
+    public void setPath(List<Node> path) {
+        this.path = path;
+    }
+    
+    
+    
 }
